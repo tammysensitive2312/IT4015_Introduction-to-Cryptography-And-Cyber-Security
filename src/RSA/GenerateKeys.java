@@ -1,10 +1,11 @@
 package RSA;
 
-import java.io.File;
-import java.io.FileWriter;
+
 import java.io.IOException;
 import java.math.BigInteger;
 import java.security.SecureRandom;
+
+import static RSA.Helper.writeKey;
 
 public class GenerateKeys {
     private final SecureRandom random = new SecureRandom();
@@ -26,22 +27,27 @@ public class GenerateKeys {
         return new BigInteger[]{n, e, d};
     }
 
-    private void writeKey(String filename, BigInteger n, BigInteger e, BigInteger d) throws IOException {
-        File file = new File(filename + ".key");
-        FileWriter fw = new FileWriter(file);
-        fw.write("n:" + n + "\n");
-//        fw.write(filename + ":" + keyComponent + "\n");
-
-        if (e != null) {
-            fw.write("e:" + e + "\n"); // Khóa công khai có thành phần e
-        }
-        if (d != null) {
-            fw.write("d:" + d + "\n"); // Khóa riêng tư có thành phần d
-        }
-        fw.close();
-        System.out.println("Successfully generated " + filename + " key. ");
-        System.out.println(filename + " key path: " + file.getAbsolutePath() + "\n");
-    }
+//    private void writeKey(String filename, BigInteger n, BigInteger e, BigInteger d) throws IOException {
+//        String resDirectory = "res"; // Thư mục res trong thư mục gốc của dự án
+//        File directory = new File(resDirectory);
+//        if (!directory.exists()){
+//            directory.mkdir(); // Tạo thư mục nếu nó không tồn tại
+//        }
+//
+//        File file = new File(directory,filename + ".key");
+//        FileWriter fw = new FileWriter(file);
+//        fw.write("n:" + n + "\n");
+//
+//        if (e != null) {
+//            fw.write("e:" + e + "\n"); // Khóa công khai có thành phần e
+//        }
+//        if (d != null) {
+//            fw.write("d:" + d + "\n"); // Khóa riêng tư có thành phần d
+//        }
+//        fw.close();
+//        System.out.println("Successfully generated " + filename + " key. ");
+//        System.out.println(filename + " key path: " + file.getAbsolutePath() + "\n");
+//    }
 
     public void generateKeys(int modulusSize) throws IOException {
         int primeSize = modulusSize / 2;
