@@ -20,10 +20,11 @@
 ### Sign document
 
 - Go to the application directory
-- Compile it - 'javac Sign.java'
+- Compile it - 'javac Sign.java' (for the first time run)
 - Make a signature on a document - 'java Sign filename'
 
 ### Verify a signature
 
-- Compile it - 'javac Verify.java'
-- Make a signature on a document - 'java Verify filename'
+- Compile it - 'javac Verify.java' (for the first time run)
+- Make a signature on a document - 'java Verify filename signature_filename'
+- Example 'D:\RSA-Digital-Signature\src> java Verify doc.txt signed20240421184922.txt'
