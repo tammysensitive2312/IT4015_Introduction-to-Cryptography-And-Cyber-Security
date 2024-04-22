@@ -1,8 +1,12 @@
+import RSA.Helper;
+
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class SHA1 {
 
@@ -126,21 +130,48 @@ public class SHA1 {
         return hexString.toString();
     }
 
-    public static void main(String[] args) {
-        SHA1 sha1 = new SHA1();
-        File file = new File("D:\\RSA-Digital-Signature\\src\\doc.txt");
+    private static void usage() {
+        System.out.println("Usage: java SHA1 <filename> ");
+        System.exit(1);
+    }
 
-        try (FileInputStream fis = new FileInputStream(file)) {
-            // khởi tạo một mảng byte với kích thước 1024byte tạm thời chứa dữ liệu đọc tư file
-            byte[] dataBuffer = new byte[1024];
-            int bytesRead;
-            while ((bytesRead = fis.read(dataBuffer)) != -1) {
-                sha1.update(Arrays.copyOf(dataBuffer, bytesRead));
-            }
-            System.out.println("SHA-1 Hash: " + sha1.digestHex());
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
+    public static void main(String[] args) {
+        if (args.length < 1) {
+            usage();
         }
+        SHA1 sha1 = new SHA1();
+        for (String filename : args) {
+            try {
+                byte[] contents = Files.readAllBytes(Paths.get(filename));
+
+                sha1.update(contents);
+                Helper.writeFile("Hash", sha1.digestHex());
+                System.out.println("SHA-1 Hash: " + sha1.digestHex());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+//        Scanner sc = new Scanner(System.in);
+//        System.out.println("Input file name: ");
+//
+//        String resDir = "D:\\RSA-Digital-Signature\\res\\";
+//        String filename = resDir + sc.nextLine();
+//
+//        SHA1 sha1 = new SHA1();
+//        File file = new File(filename);
+//
+//        try (FileInputStream fis = new FileInputStream(file)) {
+//            // khởi tạo một mảng byte với kích thước 1024byte tạm thời chứa dữ liệu đọc tư file
+//            byte[] dataBuffer = new byte[1024];
+//            int bytesRead;
+//            while ((bytesRead = fis.read(dataBuffer)) != -1) {
+//                sha1.update(Arrays.copyOf(dataBuffer, bytesRead));
+//            }
+//            System.out.println("SHA-1 Hash: " + sha1.digestHex());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            throw new RuntimeException(e);
+//        }
     }
 }
